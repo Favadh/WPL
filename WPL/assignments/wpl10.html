@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Mouse Over Image</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 30px; background: #f7f7f7; }
+    #card { width: 320px; padding: 10px; background: #fff; border: 1px solid #ddd; border-radius: 6px; text-align: center; cursor: pointer; }
+    #card img { max-width: 100%; height: auto; display: block; margin: 0 auto 10px; }
+    #caption { color: #333; margin: 0; }
+  </style>
+</head>
+<body>
+  <h2>Simple Mouseover Events</h2>
+
+  <div id="card" aria-label="Interactive card">
+    <img id="pic" src="./original.png" alt="Original image">
+    <p id="caption">This is the original image. Move your mouse over the box.</p>
+  </div>
+
+  <script>
+    var card = document.getElementById('card');
+    var pic = document.getElementById('pic');
+    var caption = document.getElementById('caption');
+
+    var originalSrc = pic.src;
+    var originalText = caption.textContent;
+
+    var hoverSrc = "./new.png";
+    var hoverText = "Nice, You hovered over it, here's new text and image.";
+
+    // Keep it basic: attach listeners directly
+    card.addEventListener('mouseover', function () {
+      pic.src = hoverSrc;
+      caption.textContent = hoverText;
+    });
+
+    card.addEventListener('mouseout', function () {
+      pic.src = originalSrc;
+      caption.textContent = originalText;
+    });
+  </script>
+</body>
+</html>

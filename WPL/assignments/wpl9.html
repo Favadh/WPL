@@ -1,0 +1,41 @@
+<html>
+<head>
+  <title>Change BG Color</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .box {
+      width: 280px;
+      padding: 18px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      text-align: center;
+    }
+    button {
+      margin-top: 12px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div>Click the button to change the bgcolor</div>
+    <button id="changeBtn">change bgcolor</button>
+  </div>
+
+  <script>
+    document.getElementById('changeBtn').addEventListener('click', function () {
+      document.body.style.backgroundColor = 'grey';
+    });
+  </script>
+</body>
+</html>

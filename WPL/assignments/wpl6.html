@@ -1,0 +1,185 @@
+<html>
+<head>
+  <title>JavaScript Functions</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      border: 1px solid #ccc;
+      padding: 20px;
+      background-color: #e3e3e3;
+      border-radius: 8px;
+    }
+    input[type="text"] {
+      width: 95%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 12px;
+      cursor: pointer;
+      background-color: #dbffc8;
+      border: 1px solid #4CAF50;
+    }
+    #result, #result2 {
+      font-weight: bold;
+      color: #0056b3;
+    }
+    h2 {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
+    }
+    h1 {
+      text-align: center;
+    }
+    section {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>String and Math Functions</h1>
+  
+  <section>
+    <div class="container">
+
+    <label for="inputBox">Enter text:</label>
+    <input type="text" id="inputBox" placeholder="Your input here...">
+
+    <p>Result: <span id="result"></span></p>
+
+    <h2>String Functions</h2>
+    <button onclick="getStringLength()">Length</button>
+    <button onclick="convertToUpperCase()">To Upper Case</button>
+    <button onclick="convertToLowerCase()">To Lower Case</button>
+    <button onclick="getCharacterAt()">Character At Index 2</button>
+    <button onclick="sliceString()">Slice (0 to 4)</button>
+    <button onclick="replaceText()">Replace 'haha' with 'hehee'</button>
+  </div>
+
+  <div class="container">
+
+    <label for="inputBox">Enter a number:</label>
+    <input type="text" id="inputBox2" placeholder="Your input here...">
+
+    <p>Result: <span id="result2"></span></p>
+
+    <h2>Math Functions (Input should be a number)</h2>
+    <button onclick="getSquareRoot()">Square Root</button>
+    <button onclick="roundNumber()">Round</button>
+    <button onclick="getCeil()">Ceiling</button>
+    <button onclick="getFloor()">Floor</button>
+    <button onclick="getAbsolute()">Absolute Value</button>
+    <button onclick="showRandom()">Random Number</button>
+  </div>
+  </section>
+
+  <script>
+    function getInputElement(box) {
+      return document.getElementById(box);
+    }
+
+    function getResultElement(resultBox) {
+      return document.getElementById(resultBox);
+    }
+
+    function getStringLength() {
+      var input = getInputElement('inputBox').value;
+      getResultElement('result').innerText = "Length is: " + input.length;
+    }
+
+    function convertToUpperCase() {
+      var input = getInputElement('inputBox').value;
+      getResultElement('result').innerText = input.toUpperCase();
+    }
+
+    function convertToLowerCase() {
+      var input = getInputElement('inputBox').value;
+      getResultElement('result').innerText = input.toLowerCase();
+    }
+
+    function getCharacterAt() {
+      var input = getInputElement('inputBox').value;
+      if (input.length > 2) {
+        getResultElement('result').innerText = "Character at index 2 is: " + input.charAt(2);
+      } else {
+        getResultElement('result').innerText = "Input is too short.";
+      }
+    }
+
+    function sliceString() {
+      var input = getInputElement('inputBox').value;
+      getResultElement('result').innerText = "Sliced string is: " + input.slice(0, 4);
+    }
+
+    function replaceText() {
+      var input = getInputElement('inputBox').value;
+      getResultElement('result').innerText = input.replace("haha", "hehee");
+    }
+
+    function getSquareRoot() {
+      var input = getInputElement('inputBox2').value;
+      var number = parseFloat(input);
+      if (isNaN(number)) {
+        getResultElement('result2').innerText = "Please enter a valid number.";
+      } else {
+        getResultElement('result2').innerText = "Square root is: " + Math.sqrt(number);
+      }
+    }
+
+    function roundNumber() {
+      var input = getInputElement('inputBox2').value;
+      var number = parseFloat(input);
+      if (isNaN(number)) {
+        getResultElement('result2').innerText = "Please enter a valid number.";
+      } else {
+        getResultElement('result2').innerText = "Rounded value is: " + Math.round(number);
+      }
+    }
+
+    function getCeil() {
+      var input = getInputElement('inputBox2').value;
+      var number = parseFloat(input);
+      if (isNaN(number)) {
+        getResultElement('result2').innerText = "Please enter a valid number.";
+      } else {
+        getResultElement('result2').innerText = "Ceiling value is: " + Math.ceil(number);
+      }
+    }
+
+    function getFloor() {
+      var input = getInputElement('inputBox2').value;
+      var number = parseFloat(input);
+      if (isNaN(number)) {
+        getResultElement('result2').innerText = "Please enter a valid number.";
+      } else {
+        getResultElement('result2').innerText = "Floor value is: " + Math.floor(number);
+      }
+    }
+
+    function getAbsolute() {
+      var input = getInputElement('inputBox2').value;
+      var number = parseFloat(input);
+      if (isNaN(number)) {
+        getResultElement('result2').innerText = "Please enter a valid number.";
+      } else {
+        getResultElement('result2').innerText = "Absolute value is: " + Math.abs(number);
+      }
+    }
+
+    function showRandom() {
+      getResultElement('result2').innerText = "Random number (0-1): " + Math.random();
+    }
+  </script>
+
+</body>
+</html>

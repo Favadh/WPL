@@ -1,0 +1,54 @@
+<html>
+
+<head>
+	<link rel="stylesheet" href="./style.css">
+	<title>Form page</title>
+	<style>
+		form{
+			border: 1px solid black;
+			width: 500px;
+			padding: 30px;
+			padding-left: 125px;
+			align-text: center;
+		}
+	</style>
+</head>
+
+<body>
+	<h1 style="text-align: center;"> Data Collection </h1>
+	<p id=p1>This para1 is targetted with id</p>
+	<p class=p2>This para2 is targetted with class</p>
+	<p class=p2>This para3 is also targetted with class</p>
+	<form style="background-color: yellow;"> 
+		User Id: <input type="text"> <br>
+		<br>
+		Password: <input type="password"> <br> <br>
+		Enter description: <br>
+		<textarea rows="5" cols="50">
+		</textarea><br>
+
+		Maths <input type="checkbox" name="maths" value="on"><br>
+		Physics <input type="checkbox" name="physics value="on"><br> 	
+		
+		<h3>Gender</h3>
+		<input type="radio" name="gender" value="on">Male<br>
+		<input type="radio" name="gender" value="on">Female<br>
+		<input type="radio" name="gender" value="on">others<br>	
+
+		<label for="cars"> Choose a car: </label>
+		<select id="cars" name="cars">
+			<option> Select </option>
+			<option value="Evo VIII">Evo VIII</option>
+			<option value="BMW M4">BMW M4</option>
+			<option value="GT R32">GT R32</option>
+			<option value="ALTO K10">ALTO K10</option>
+		</select>
+
+		<br><br>
+
+		<input type="submit" name="submit" value="submit">
+		<input type="reset" name="reset" value="reset">
+		<input type="button" name="ok" value="ok">
+	</form>
+</body>
+</html>

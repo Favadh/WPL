@@ -1,0 +1,130 @@
+<html>
+<head>
+  <title>Registration Form</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f7f7f7; padding:20px; }
+    .container { max-width:420px; margin:40px auto; padding:20px; border: 1px solid black}
+    h2 { margin-top:0; font-weight:600; }
+    .field { margin-bottom:14px; }
+    label { display:block; font-size:14px; margin-bottom:6px; }
+    input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
+      width:100%; padding:8px 10px; border:1px solid #ccc; box-sizing:border-box;
+    }
+    .error { color:#b00020; font-size:13px; margin-top:6px; display:none; }
+    .success { color:green; font-size:14px; margin-top:8px; display:none; }
+    button { padding:10px 14px; border:0; background:#0078d4; color:#fff; cursor:pointer; }
+    button:disabled { opacity:0.6; cursor:not-allowed; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Register</h2>
+    <form id="regForm" novalidate>
+      <div class="field">
+        <label for="name">Full name</label>
+        <input id="name" name="name" type="text" autocomplete="name" />
+        <div id="nameErr" class="error">Please enter your name (letters and spaces only).</div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" />
+        <div id="emailErr" class="error">Please enter a valid email address.</div>
+      </div>
+
+      <div class="field">
+        <label for="mobile">Mobile number</label>
+        <input id="mobile" name="mobile" type="tel" inputmode="numeric" placeholder="10 digits" />
+        <div id="mobileErr" class="error">Please enter a valid 10-digit mobile number.</div>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="new-password" />
+        <div id="passwordErr" class="error">Password must be at least 8 chars, include upper and lower case letters and a number.</div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <button type="submit" id="submitBtn">Create account</button>
+      </div>
+
+      <div id="formSuccess" class="success">Registration successful!</div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('regForm');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const mobileInput = document.getElementById('mobile');
+    const passwordInput = document.getElementById('password');
+
+    const nameErr = document.getElementById('nameErr');
+    const emailErr = document.getElementById('emailErr');
+    const mobileErr = document.getElementById('mobileErr');
+    const passwordErr = document.getElementById('passwordErr');
+    const formSuccess = document.getElementById('formSuccess');
+
+    function showError(el, msgEl) {
+      el.setAttribute('aria-invalid', 'true');
+      msgEl.style.display = 'block';
+    }
+    function clearError(el, msgEl) {
+      el.removeAttribute('aria-invalid');
+      msgEl.style.display = 'none';
+    }
+
+    function validateName() {
+      const val = nameInput.value.trim();
+      const ok = /^[A-Za-z ]{2,}$/.test(val);
+      if (!ok) showError(nameInput, nameErr); else clearError(nameInput, nameErr);
+      return ok;
+    }
+
+    function validateEmail() {
+      const val = emailInput.value.trim();
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val);
+      if (!ok) showError(emailInput, emailErr); else clearError(emailInput, emailErr);
+      return ok;
+    }
+
+    function validateMobile() {
+      const val = mobileInput.value.replace(/\D/g, '');
+      const ok = /^\d{10}$/.test(val);
+      if (!ok) showError(mobileInput, mobileErr); else clearError(mobileInput, mobileErr);
+      return ok;
+    }
+
+    function validatePassword() {
+      const val = passwordInput.value;
+      const ok = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(val);
+      if (!ok) showError(passwordInput, passwordErr); else clearError(passwordInput, passwordErr);
+      return ok;
+    }
+
+    nameInput.addEventListener('input', validateName);
+    emailInput.addEventListener('input', validateEmail);
+    mobileInput.addEventListener('input', validateMobile);
+    passwordInput.addEventListener('input', validatePassword);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      formSuccess.style.display = 'none';
+
+      const okName = validateName();
+      const okEmail = validateEmail();
+      const okMobile = validateMobile();
+      const okPassword = validatePassword();
+
+      if (okName && okEmail && okMobile && okPassword) {
+        formSuccess.style.display = 'block';
+        form.reset();
+        [nameErr, emailErr, mobileErr, passwordErr].forEach(el => el.style.display = 'none');
+      } else {
+        const firstInvalid = form.querySelector('[aria-invalid="true"]');
+        if (firstInvalid) firstInvalid.focus();
+      }
+    });
+  </script>
+</body>
+</html>

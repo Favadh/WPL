@@ -1,0 +1,221 @@
+<html>
+<head>
+
+  <title>Calendar</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #000000;
+      padding: 20px;
+    }
+
+    .controls {
+      max-width: 420px;
+      border: 2px solid #000;
+      padding: 10px;
+      background: #f9f9f9;
+    }
+
+    .controls label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    .controls input[type="number"] {
+      width: 100%;
+      padding: 6px;
+      font-size: 16px;
+      border: 1px solid #000;
+      margin-bottom: 8px;
+      box-sizing: border-box;
+      background: #ffffff;
+    }
+
+    .controls .buttons {
+      margin-top: 6px;
+    }
+
+    button {
+      padding: 6px 10px;
+      font-size: 16px;
+      border: 1px solid #000;
+      background: #e0e0e0;
+      cursor: pointer;
+      margin-right: 6px;
+    }
+
+    .calendar {
+      max-width: 420px;
+      margin-top: 14px;
+      border: 2px solid #000;
+      padding: 6px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background: #dddddd;
+      font-weight: bold;
+    }
+
+    td.inactive {
+      color: #888888;
+      background: #fafafa;
+    }
+
+    td.today {
+      background: #ffff99;
+    }
+
+    .cal-header {
+      margin-bottom: 8px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    .footer {
+      margin-top: 8px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <label>
+      Year
+      <input id="yearInput" type="number" min="1" max="9999" value="" />
+    </label>
+    <label>
+      Month (1-12)
+      <input id="monthInput" type="number" min="1" max="12" value="" />
+    </label>
+    <div class="buttons">
+      <button id="showBtn">Show</button>
+    </div>
+  </div>
+
+  <div id="calendarContainer" class="calendar"></div>
+
+  <script>
+    var yearInput = document.getElementById('yearInput');
+    var monthInput = document.getElementById('monthInput');
+    var showBtn = document.getElementById('showBtn');
+    var container = document.getElementById('calendarContainer');
+
+    var monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    var dayNames = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+    function renderCalendar(year, month) {
+      year = parseInt(year, 10);
+      month = parseInt(month, 10);
+
+      if (isNaN(year) || isNaN(month) || month < 1 || month > 12) {
+        container.innerHTML = '<div class="cal-header">Invalid year or month</div>';
+        return;
+      }
+
+      var firstDayIndex = new Date(year, month - 1, 1).getDay();
+      var daysInMonth = new Date(year, month, 0).getDate();
+      var prevMonthDays = new Date(year, month - 1, 0).getDate();
+
+      var html = '';
+      html += '<div class="cal-header">' + monthNames[month - 1] + ' ' + year + '</div>';
+      html += '<table>';
+      html += '<thead><tr>';
+      for (var d = 0; d < 7; d++) {
+        html += '<th>' + dayNames[d] + '</th>';
+      }
+      html += '</tr></thead><tbody>';
+
+      var day = 1;
+      var started = false;
+
+      for (var week = 0; week < 6; week++) {
+        if (started && day > daysInMonth) {
+          break;
+        }
+
+        html += '<tr>';
+        for (var dow = 0; dow < 7; dow++) {
+          var cell = '';
+          if (!started && dow === firstDayIndex) {
+            started = true;
+          }
+
+          if (!started) {
+            var num = prevMonthDays - (firstDayIndex - 1 - dow);
+            cell = '<td class="inactive">' + num + '</td>';
+          } else if (day > daysInMonth) {
+            var nextDay = day - daysInMonth;
+            cell = '<td class="inactive">' + nextDay + '</td>';
+            day++;
+          } else {
+            cell = '<td>' + day + '</td>';
+            day++;
+          }
+          html += cell;
+        }
+        html += '</tr>';
+      }
+
+      html += '</tbody></table>';
+      container.innerHTML = html;
+    }
+
+    function showFromInputs() {
+      var now = new Date();
+      var defaultYear = now.getFullYear();
+      var defaultMonth = now.getMonth() + 1;
+
+      var y = yearInput.value || defaultYear;
+      var m = monthInput.value || defaultMonth;
+      renderCalendar(y, m);
+    }
+
+    var now = new Date();
+    yearInput.value = now.getFullYear();
+    monthInput.value = now.getMonth() + 1;
+    renderCalendar(yearInput.value, monthInput.value);
+
+    showBtn.addEventListener('click', showFromInputs);
+
+    yearInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        showFromInputs();
+      }
+    });
+    monthInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        showFromInputs();
+      }
+    });
+
+    monthInput.addEventListener('input', function () {
+      var m = parseInt(monthInput.value, 10);
+      if (isNaN(m)) return;
+      if (m < 1) monthInput.value = 1;
+      if (m > 12) monthInput.value = 12;
+    });
+
+    yearInput.addEventListener('input', function () {
+      var y = parseInt(yearInput.value, 10);
+      if (isNaN(y)) return;
+      if (y < 1) yearInput.value = 1;
+      if (y > 9999) yearInput.value = 9999;
+    });
+  </script>
+</body>
+</html>

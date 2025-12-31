@@ -1,0 +1,229 @@
+<html>
+<head>
+  <title>Online Exam</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 20px;
+      color: #222;
+    }
+
+    .wrap {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 10px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 20px;
+    }
+
+    header {
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 18px;
+      margin: 0;
+      color: #111;
+    }
+
+    .questions {
+      margin-top: 10px;
+    }
+    .q {
+      padding: 10px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      background: #fafafa;
+    }
+    .q h3 {
+      font-size: 14px;
+      margin: 0 0 8px 0;
+    }
+
+    .options label {
+      display: block;
+      padding: 6px;
+      margin-bottom: 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      background: transparent;
+      border: 1px solid transparent;
+    }
+    .options label:hover {
+      background: #fff;
+      border-color: #e6e6e6;
+    }
+    .options input {
+      margin-right: 8px;
+    }
+
+    .controls {
+      margin-top: 12px;
+    }
+    button {
+      padding: 8px 12px;
+      border: 0;
+      background: #007bff;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button.secondary,
+    button[disabled] {
+      background: #e9ecef;
+      color: #6c757d;
+      border: 1px solid #ccc;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" id="examCard">
+      <header>
+        <div>
+          <h1>Online Exam</h1>
+        </div>
+      </header>
+
+      <form id="examForm" class="questions" autocomplete="off" aria-live="polite">
+        <section class="q" data-q="1">
+          <h3>1. Which HTML element is used to define the largest heading?</h3>
+          <div class="options">
+            <label><input type="radio" name="q1" value="a"> &lt;heading&gt;</label>
+            <label><input type="radio" name="q1" value="b"> &lt;h1&gt;</label>
+            <label><input type="radio" name="q1" value="c"> &lt;head&gt;</label>
+            <label><input type="radio" name="q1" value="d"> &lt;title&gt;</label>
+          </div>
+        </section>
+
+        <section class="q" data-q="2">
+          <h3>2. Which CSS property controls the text size?</h3>
+          <div class="options">
+            <label><input type="radio" name="q2" value="a"> font-style</label>
+            <label><input type="radio" name="q2" value="b"> text-size</label>
+            <label><input type="radio" name="q2" value="c"> font-size</label>
+            <label><input type="radio" name="q2" value="d"> text-style</label>
+          </div>
+        </section>
+
+        <section class="q" data-q="3">
+          <h3>3. In JavaScript, which keyword is used to declare a block-scoped variable?</h3>
+          <div class="options">
+            <label><input type="radio" name="q3" value="a"> var</label>
+            <label><input type="radio" name="q3" value="b"> let</label>
+            <label><input type="radio" name="q3" value="c"> const</label>
+            <label><input type="radio" name="q3" value="d"> both b and c</label>
+          </div>
+        </section>
+
+        <section class="q" data-q="4">
+          <h3>4. Which HTTP status code means "Not Found"?</h3>
+          <div class="options">
+            <label><input type="radio" name="q4" value="a"> 200</label>
+            <label><input type="radio" name="q4" value="b"> 301</label>
+            <label><input type="radio" name="q4" value="c"> 404</label>
+            <label><input type="radio" name="q4" value="d"> 500</label>
+          </div>
+        </section>
+
+        <section class="q" data-q="5">
+          <h3>5. Which of the following is a semantic HTML element?</h3>
+          <div class="options">
+            <label><input type="radio" name="q5" value="a"> &lt;div&gt;</label>
+            <label><input type="radio" name="q5" value="b"> &lt;span&gt;</label>
+            <label><input type="radio" name="q5" value="c"> &lt;article&gt;</label>
+            <label><input type="radio" name="q5" value="d"> &lt;br&gt;</label>
+          </div>
+        </section>
+
+        <div class="controls" role="group" aria-label="Exam controls">
+          <button type="button" id="submitBtn" class="secondary" disabled>Submit Answers</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <script>
+    var correct = { q1: 'b', q2: 'c', q3: 'd', q4: 'c', q5: 'c' };
+    var examForm = document.getElementById('examForm');
+    var submitBtn = document.getElementById('submitBtn');
+
+    function enableSubmission(enable){
+      submitBtn.disabled = !enable;
+      submitBtn.classList.toggle('secondary', !enable);
+    }
+
+    function readAnswers(){
+      const data = {};
+      const formData = new FormData(examForm);
+      for (let i=1;i<=5;i++){
+      data['q'+i] = formData.get('q'+i) || null;
+      }
+      return data;
+    }
+
+    function gradeAnswers(answers){
+      let score=0;
+      const details = [];
+      for (let i=1;i<=5;i++){
+      const key='q'+i;
+      const user = answers[key];
+      const correctAns = correct[key];
+      const isCorrect = user && user === correctAns;
+      if (isCorrect) score++;
+      details.push({ q: i, user, correct: correctAns, isCorrect });
+      }
+      return { score, details, total: 5 };
+    }
+
+    function renderResultPopUp(report){
+      const percent = Math.round((report.score/report.total)*100);
+      let grade = 'F';
+      if (percent >= 90) grade='A';
+      else if (percent >= 75) grade='B';
+      else if (percent >= 60) grade='C';
+      else if (percent >= 50) grade='D';
+
+      let text = `Score: ${report.score} / ${report.total} \nGrade: ${grade}\n\nCorrect answers:\n`;
+      report.details.forEach(d => {
+      const corrText = d.correct ? d.correct.toUpperCase() : 'N/A';
+      const qText = Array.from(document.querySelectorAll('.q'))[d.q-1].querySelector('h3').textContent;
+      text += `Q${d.q}: ${corrText}\n`;
+      });
+
+      alert(text);
+    }
+
+    examForm.addEventListener('change', function() {
+      var answers = readAnswers();
+      var any = false;
+      for (var k in answers) {
+      if (answers.hasOwnProperty(k) && answers[k] !== null) {
+        any = true;
+        break;
+      }
+      }
+      enableSubmission(any);
+    });
+
+    submitBtn.addEventListener('click', function() {
+      var answers = readAnswers();
+      var report = gradeAnswers(answers);
+      renderResultPopUp(report);
+      enableSubmission(false);
+    });
+
+    enableSubmission(false);
+  </script>
+</body>
+</html>

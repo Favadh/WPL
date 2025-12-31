@@ -1,0 +1,41 @@
+<html>
+<head>
+  <title>Js Multiple Events</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #fff; color: #111; }
+    h1 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+    #btn { padding: 0.5rem 0.8rem; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Multiple events on button</h1>
+
+    <button id="btn" type="button">Press Me</button>
+  </div>
+
+  <script>
+    const btn = document.getElementById('btn');
+
+    btn.addEventListener('mouseover', mOn);
+    btn.addEventListener('click', mClick);
+    btn.addEventListener('mouseout', mMiss);
+
+    function appendEntry(text) {
+      const tn = document.createTextNode(text);
+      document.body.appendChild(tn);
+      document.body.appendChild(document.createElement('br'));
+    }
+
+    function mOn() {
+      appendEntry('Mouse over');
+    }
+    function mClick() {
+      appendEntry('Clicked');
+    }
+    function mMiss() {
+      appendEntry('Mouse out');
+    }
+  </script>
+</body>
+</html>
